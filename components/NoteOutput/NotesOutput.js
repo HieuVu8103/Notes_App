@@ -1,11 +1,11 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import NotesSumary from "./NotesSumary";
 import NotesList from "./NotesList";
 import { NOTES } from "../../data/dummy-data";
 
 function NotesOutput({notes}) {
     return(
-        <View>
+        <View style={styles.container}>
             <NotesSumary/>
             <NotesList notes={NOTES} />
         </View>
@@ -13,3 +13,9 @@ function NotesOutput({notes}) {
 }
 
 export default NotesOutput
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    }
+})
