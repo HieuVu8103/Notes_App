@@ -1,20 +1,47 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import Home from './screens/Home';
+import Labels from './screens/Labels';
+import Folders from './screens/Folders';
+import Trash from './screens/Trash';
+import NewNote from './screens/NewNote';
+import EditNote from './screens/EditNote';
+import ManageLabels from './screens/ManageLabels';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function NotesApp() {
+  return(
+    <Drawer.Navigator>
+      <Drawer.Screen name="Notes" component={Home} />
+      <Drawer.Screen name="Lables" component={Labels} />
+      <Drawer.Screen name="Folders" component={Folders} />
+      <Drawer.Screen name="Trash" component={Trash} />
+    </Drawer.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <>
+      <StatusBar style="auto" />
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen 
+            name="Notes App" 
+            component={NotesApp} 
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen name='New Note' component={NewNote}/>    
+          <Stack.Screen name='Edit Note' component={EditNote}/>   
+          <Stack.Screen name='Manage Labels' component={ManageLabels}/>   
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
+  );
+};
