@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 
-function NotesSumary({ notes, isFilteredNotes }) {
+function NotesSumary({ notes }) {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>{notes.length} notes</Text>

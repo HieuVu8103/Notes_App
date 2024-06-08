@@ -1,4 +1,4 @@
-import { FlatList, Text } from "react-native";
+import { FlatList } from "react-native";
 import NoteItem from "./NoteItems";
 
 function renderNoteItem(itemData) {

@@ -1,14 +1,8 @@
 import React from 'react';
 import { TextInput, StyleSheet, View } from 'react-native';
-import IconButton from './IconButton';
+import IconButton from './IconButtonn';
 
-function SearchBar({
-    searchText,
-    value,
-    setFilter,
-    hiddenSearch,
-    filterNote,
-}) {
+function SearchBar({ searchText, setQuery, hiddenSearch, filterNote }) {
     return (
         <View style={styles.searchBar}>
             <IconButton
@@ -16,13 +10,16 @@ function SearchBar({
                 icon={'arrow-back-outline'}
                 size={24}
                 color='gray'
-                onPress={() => hiddenSearch()}
+                onPress={() => {
+                    setQuery('');
+                    hiddenSearch();
+                }}
             />
 
             <TextInput
                 style={styles.input}
                 placeholder='Type here...'
-                onChangeText={(value) => filterNote(value)}
+                onChangeText={(value) => setQuery(value)}
                 value={searchText}
             />
 
@@ -31,7 +28,7 @@ function SearchBar({
                 icon={'close-outline'}
                 size={24}
                 color='gray'
-                onPress={() => filterNote('')}
+                onPress={() => setQuery('')}
             />
         </View>
     );

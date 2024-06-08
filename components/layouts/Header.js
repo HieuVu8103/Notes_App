@@ -1,10 +1,10 @@
 import { View, StyleSheet, Text } from 'react-native';
-import IconButton from '../UI/IconButton';
+import IconButton from '../UI/IconButtonn';
 import { useNavigation } from '@react-navigation/native';
 import SearchBar from '../UI/SearchBar';
 import { useState } from 'react';
 
-function Header({ title = 'Notes', isHome, filterNote }) {
+function Header({ title = 'Notes', isHome, setQuery }) {
     const navigation = useNavigation();
     const [isShownSearch, setIsShownSearch] = useState(false);
 
@@ -18,7 +18,7 @@ function Header({ title = 'Notes', isHome, filterNote }) {
                 onPress={() => navigation.openDrawer()}
             />
 
-            <Text style={styles.title}>Notes</Text>
+            <Text style={styles.title}>{title}</Text>
 
             {isHome && (
                 <IconButton
@@ -26,14 +26,18 @@ function Header({ title = 'Notes', isHome, filterNote }) {
                     icon={'search-outline'}
                     size={24}
                     color='gray'
-                    onPress={() => setIsShownSearch(true)}
+                    onPress={() => {
+                        setIsShownSearch(true);
+                    }}
                 />
             )}
 
             {isShownSearch && (
                 <SearchBar
-                    hiddenSearch={() => setIsShownSearch(false)}
-                    filterNote={filterNote}
+                    hiddenSearch={() => {
+                        setIsShownSearch(false);
+                    }}
+                    setQuery={setQuery}
                 />
             )}
         </View>
