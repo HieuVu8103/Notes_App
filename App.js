@@ -14,6 +14,7 @@ import EditNote from './screens/EditNote';
 import ManageLabels from './screens/ManageLabels';
 import IconButton from './components/UI/IconButtonn';
 import SearchBar from './components/UI/SearchBar';
+import NotesContextProvider from './store/notes-context';
 
 
 const Stack = createNativeStackNavigator();
@@ -48,20 +49,22 @@ export default function App() {
   return (
     <>
       <StatusBar style="auto" />
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen 
-            name="Notes App" 
-            component={NotesApp} 
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen name='New Note' component={NewNote} options={{presentation: 'modal'}}/>    
-          <Stack.Screen name='Edit Note' component={EditNote}/>   
-          <Stack.Screen name='Manage Labels' component={ManageLabels}/>   
-        </Stack.Navigator>
-      </NavigationContainer>
+      <NotesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen 
+              name="Notes App" 
+              component={NotesApp} 
+              options={{
+                headerShown: false
+              }}
+            />
+            <Stack.Screen name='New Note' component={NewNote} options={{presentation: 'modal'}}/>    
+            <Stack.Screen name='Edit Note' component={EditNote}/>   
+            <Stack.Screen name='Manage Labels' component={ManageLabels}/>   
+          </Stack.Navigator>
+        </NavigationContainer>
+      </NotesContextProvider>
     </>
   );
 };

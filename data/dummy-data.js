@@ -16,7 +16,7 @@ export const COLORS = [
 ];
 
 export const NOTES = [
-    new Note('n1', null, ['l1', 'l2'], 'Final Project Preparation', new Date('2024-6-07T12:30:00'), false),
+    new Note('n1', null, ['l1', 'l2'], 'Final Project Preparation', new Date('2024-6-08T12:30:00'), false),
     new Note('n2', COLORS[3], ['l3'], 'For our mini project!', new Date('2024-5-10T12:35:00'), true),
     new Note('n3', COLORS[4], ['l2'], 'Second note!', new Date('2024-4-20T15:30:00'), false),
     new Note('n4', COLORS[5], ['l1'], 'Ok the first note here!', new Date('2024-4-20T12:25:00'), false), 
