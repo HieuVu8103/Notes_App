@@ -14,10 +14,9 @@ function NoteItem({ id, color, labelIds, content, updateAt, isBookmarked }) {
     const navigation = useNavigation();
 
     function notePressHanlder() {
-        navigation.navigate("Edit Note")
+        navigation.navigate("Edit Note", { noteId: id });
 
     }
-
     return (
         <Pressable 
             onPress={notePressHanlder}
