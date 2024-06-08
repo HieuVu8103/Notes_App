@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet } from "react-native";
-import { COLORS, NOTES } from "../../data/dummy-data";
+import { View, Text, StyleSheet } from 'react-native';
 
-function NotesSumary() {  
-    return(
+function NotesSumary({ notes, isFilteredNotes }) {
+    return (
         <View style={styles.container}>
-            <Text style={styles.text}>{NOTES.length} notes</Text>
+            <Text style={styles.text}>{notes.length} notes</Text>
         </View>
     );
 }
@@ -16,7 +15,7 @@ const styles = StyleSheet.create({
         padding: 8,
     },
     text: {
-        color: "lightseagreen",
-        fontWeight: "bold"
-    }
-})
+        color: 'lightseagreen',
+        fontWeight: 'bold',
+    },
+});

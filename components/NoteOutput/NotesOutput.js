@@ -1,21 +1,20 @@
-import { View, StyleSheet } from "react-native";
-import NotesSumary from "./NotesSumary";
-import NotesList from "./NotesList";
-import { NOTES } from "../../data/dummy-data";
+import { View, StyleSheet } from 'react-native';
+import NotesSumary from './NotesSumary';
+import NotesList from './NotesList';
 
-function NotesOutput({notes}) {
-    return(
+function NotesOutput({ notes, isFilteredNotes }) {
+    return (
         <View style={styles.container}>
-            <NotesSumary/>
-            <NotesList notes={NOTES} />
+            <NotesSumary notes={notes} />
+            <NotesList notes={notes} />
         </View>
     );
 }
 
-export default NotesOutput
+export default NotesOutput;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    }
-})
+    },
+});
