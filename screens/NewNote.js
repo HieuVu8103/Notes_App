@@ -1,8 +1,9 @@
 import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import IconButton from "../components/UI/IconButtonn";
 import { useContext, useState } from "react";
 import { NotesContext } from "../store/notes-context";
+
+import IconButton from "../components/UI/IconButtonn";
 
 function NewNote() {
     const navigation = useNavigation();

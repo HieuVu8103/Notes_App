@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableWithoutFeedback, Animated } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableWithoutFeedback, Animated, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useRoute } from "@react-navigation/native";
@@ -54,14 +54,21 @@ function EditNote() {
             </Text>
           ))}
         </View>
-        <View style={styles.content}>
-          <TextInput
-            style={styles.noteContent}
-            onChangeText={handleContentChange}
-            value={content}
-            multiline
-          />
-        </View>
+        <KeyboardAvoidingView 
+             style={styles.container}
+             behavior={Platform.OS === "ios" ? "padding" : null}         
+        >
+          <ScrollView>
+            <View style={styles.content}>
+              <TextInput
+                style={styles.noteContent}
+                onChangeText={handleContentChange}
+                value={content}
+                multiline
+              />
+            </View>           
+          </ScrollView>
+        </KeyboardAvoidingView>
         {!isClick && (
           <View style={styles.history_bar}>
             <Text>
@@ -69,7 +76,7 @@ function EditNote() {
               {formatDistanceToNow(new Date(note.updateAt), { addSuffix: true })}
             </Text>
             <View style={styles.right_bar}>
-              <Ionicons name="bookmark" size={18} color={note.isBookmarked ? 'yellow' : 'grey'} />
+              <Ionicons name={note.isBookmarked ? 'bookmark' : 'bookmark-outline'} size={24} color='grey' />
               <Entypo
                 name="dots-three-vertical"
                 size={18}
@@ -131,7 +138,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 20,
+    padding: 25,
+    fontSize: 18,
     backgroundColor: "#f9f9f9",
     shadowColor: "gray",
     shadowOffset: { width: 0, height: 2 },
