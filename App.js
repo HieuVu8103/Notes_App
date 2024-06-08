@@ -40,13 +40,6 @@ function NotesApp({ navigation }) {
         <Drawer.Screen name="Folders" component={Folders} />
         <Drawer.Screen name="Trash" component={Trash} />
       </Drawer.Navigator>
-      <IconButton
-        style={styles.addButton}
-        icon={'add-circle'}
-        size={70}
-        color="skyblue"
-        onPress={() => navigation.navigate('New Note')} 
-      />
     </View>
   );
 }
@@ -64,7 +57,7 @@ export default function App() {
               headerShown: false
             }}
           />
-          <Stack.Screen name='New Note' component={NewNote}/>    
+          <Stack.Screen name='New Note' component={NewNote} options={{presentation: 'modal'}}/>    
           <Stack.Screen name='Edit Note' component={EditNote}/>   
           <Stack.Screen name='Manage Labels' component={ManageLabels}/>   
         </Stack.Navigator>

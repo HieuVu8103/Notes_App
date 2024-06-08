@@ -2,32 +2,44 @@ import { Pressable, View, Text, StyleSheet } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { formatDistanceToNow, format } from 'date-fns';
 import { LABELS } from "../../data/dummy-data";
+import { useNavigation } from "@react-navigation/native";
 
-function NoteItem({ color, labelIds, content, updateAt, isBookmarked }) {
+function NoteItem({ id, color, labelIds, content, updateAt, isBookmarked }) {
     const labels = labelIds.map(labelId => {
         const label = LABELS.find(label => label.id === labelId);
         return label ? label.label : null;
     }).filter(Boolean);
 
     const formattedDate = formatDate(updateAt);
+    const navigation = useNavigation();
+
+    function notePressHanlder() {
+        navigation.navigate("Edit Note")
+
+    }
 
     return (
-        <Pressable style={styles.container}>
-            <View style={styles.header}>
-                <View style={[styles.dot, { backgroundColor: color }]} />
-                <Text style={styles.date}>{formattedDate}</Text>
-                {isBookmarked && (
-                    <Ionicons name="bookmark" size={24} color="gray" />
-                )}
+        <Pressable 
+            onPress={notePressHanlder}
+            style={({pressed})=> pressed && styles.pressed}
+        >
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <View style={[styles.dot, { backgroundColor: color }]} />
+                    <Text style={styles.date}>{formattedDate}</Text>
+                    {isBookmarked && (
+                        <Ionicons name="bookmark" size={24} color="gray" />
+                    )}
+                </View>
+                <View style={styles.labelsContainer}>
+                    {labels.map((label, index) => (
+                        <Text key={index} style={styles.label}>
+                            {label}
+                        </Text>
+                    ))}
+                </View>
+                <Text style={styles.content}>{content}</Text>
             </View>
-            <View style={styles.labelsContainer}>
-                {labels.map((label, index) => (
-                    <Text key={index} style={styles.label}>
-                        {label}
-                    </Text>
-                ))}
-            </View>
-            <Text style={styles.content}>{content}</Text>
         </Pressable>
     );
 }
@@ -88,6 +100,9 @@ const styles = StyleSheet.create({
     content: {
         fontSize: 16,
     },
+    pressed: {
+        opacity: 0.5
+    }
 });
 
 export default NoteItem;
