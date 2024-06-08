@@ -1,6 +1,6 @@
 import Note from "../models/note";
 import Label from "../models/label";
-
+import Edit from "../models/edit"
 export const LABELS = [
     new Label('l1', 'React Native'),
     new Label('l2', 'Final Exam'),
@@ -26,4 +26,13 @@ export const TRASH = [
     new Note('n5', COLORS[0], ['l4'], 'Learn React Native Navigation', new Date('2024-5-10T14:30:00'), true),
     new Note('n6', null, ['l4', 'l2', 'l1'], 'A simple note', new Date('2024-5-10T14:35:00'), false),
     new Note('n7', COLORS[6], ['l1', 'l2', 'l3', 'l4'], 'One more note', new Date('2024-4-20T15:30:00'), false),
+]
+
+export const EDITNAME = [
+    new Edit('clipboard-outline', 'Copy to Clipboard'),
+    new Edit('share-social-outline', 'Share'),
+    new Edit('trash-outline', 'Delete'),
+    new Edit('copy-outline', 'Make a copy'),
+    new Edit('pin-outline', 'Pin'),
+    new Edit('alarm-outline', 'Add a reminder'),
 ]
