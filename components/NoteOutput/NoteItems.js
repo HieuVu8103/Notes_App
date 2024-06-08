@@ -4,7 +4,7 @@ import { formatDistanceToNow, format } from 'date-fns';
 import { LABELS } from "../../data/dummy-data";
 import { useNavigation } from "@react-navigation/native";
 
-function NoteItem({ id, color, labelIds, content, updateAt, isBookmarked }) {
+function NoteItem({ id, color, labelIds = [], content, updateAt, isBookmarked }) {
     const labels = labelIds.map(labelId => {
         const label = LABELS.find(label => label.id === labelId);
         return label ? label.label : null;
@@ -14,8 +14,7 @@ function NoteItem({ id, color, labelIds, content, updateAt, isBookmarked }) {
     const navigation = useNavigation();
 
     function notePressHanlder() {
-        navigation.navigate("Edit Note", { noteId: id });
-
+        navigation.navigate("Edit Note", { noteId: id })
     }
     return (
         <Pressable 

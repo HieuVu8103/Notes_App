@@ -1,11 +1,28 @@
 import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import IconButton from "../components/UI/IconButtonn";
+import { useContext, useState } from "react";
+import { NotesContext } from "../store/notes-context";
 
 function NewNote() {
+    const navigation = useNavigation();
+    const notesCtx = useContext(NotesContext);
+    const [content, setContent] = useState('');
 
     function addNoteHandler() {
-        
+        const trimmedContent = content.trim();
+        if (trimmedContent === '') {
+            notesCtx.addNote({ content: "An empty note!", updateAt: new Date() });
+        } else {
+            notesCtx.addNote({ content: trimmedContent, updateAt: new Date() });
+        }
+        navigation.goBack();
     }
+
+    function contentChangeHandler(enteredContent) {
+        setContent(enteredContent);
+    }
+
 
     return (
         <KeyboardAvoidingView 
@@ -18,6 +35,8 @@ function NewNote() {
                         style={styles.input}
                         multiline
                         placeholder="Enter new note content..."
+                        onChangeText = {contentChangeHandler}
+                        value= {content}
                     />
                 </View>
             </ScrollView>
@@ -48,11 +67,10 @@ const styles = StyleSheet.create({
     },
     input: {
         fontSize: 16,
-        padding: 12,
         borderColor: "#ccc",
         borderRadius: 8,
         marginBottom: 16,
-        minHeight: 50,
+        minHeight: 30,
     },
     saveButton: {
         position: "absolute",
