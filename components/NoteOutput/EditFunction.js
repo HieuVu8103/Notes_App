@@ -66,11 +66,8 @@ function EditFunction({ isClick }) {
                         </View>
                         {COLORS.map((color, index) => (
                             <Pressable
-<<<<<<< HEAD
-                            key={index}
-=======
                                 style={({ pressed }) => pressed && styles.pressed}
->>>>>>> 8cb1996a11ab3902313a899de6145f854963d3fa
+                                key={index}
                                 onPress={() => {
                                     handler({
                                         funcName: 'Change color',

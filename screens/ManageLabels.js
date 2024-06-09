@@ -1,59 +1,78 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { LABELS } from '../data/dummy-data';
-import { Dimensions } from 'react-native';
-import { TextInput } from 'react-native';
+
 function ManageLabels() {
     const navigation = useNavigation();
     const route = useRoute();
     const { note } = route.params;
-    const { width } = Dimensions.get('window');
-    const windowWidth = width;
-    function getLabelByValue(value) {
-        const label = LABELS.find((label) => label.id === value);
-        return label ? label.label : null;
+
+    const [chosenLabels, setChosenLabels] = useState([]);
+
+    function handleLabel(labelId) {
+        setChosenLabels((prev) => {
+            if (prev.includes(labelId)) {
+                return prev.filter(id => id !== labelId);
+            } else {
+                return [...prev, labelId];
+            }
+        });
     }
 
     const renderLabelItem = ({ item }) => (
-        <View style={styles.labelContainer}>
+        <TouchableOpacity 
+            style={[styles.labelContainer, chosenLabels.includes(item.id) && styles.labelContainerChosen]} 
+            onPress={() => handleLabel(item.id)}
+        >
             <Text style={styles.labelText}>{item.label}</Text>
-        </View>
+        </TouchableOpacity>
     );
 
     return (
         <>
-        <View>
-        <TextInput>
-
-        </TextInput>  
-        </View>
-        <View style={styles.container}>
-            <FlatList
-                data={LABELS}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={renderLabelItem}
-                numColumns={3}
-            />
-        </View>
+            <View>
+                <TextInput style={styles.input} placeholder="Search Labels" />
+            </View>
+            <View style={styles.container}>
+                <FlatList
+                    data={LABELS}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={renderLabelItem}
+                    numColumns={3}
+                    
+                />
+            </View>
         </>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        display: 'grid',
+        flex: 1,
         padding: 16,
-        backgroundColor: '#fff',
+        backgroundColor: '#f0f0f0',
+    },
+    input: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        marginBottom: 16,
+        paddingHorizontal: 8,
     },
     labelContainer: {
+        flex: 1,
         backgroundColor: 'skyblue',
         padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
+        borderWidth: 1,
+        borderColor: '#ccc',
         borderRadius: 10,
-        marginRight: 20,
-        marginBottom: 10,
+        margin: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    labelContainerChosen: {
+        backgroundColor: 'blue',
     },
     labelText: {
         fontSize: 16,
