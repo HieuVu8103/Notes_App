@@ -3,13 +3,6 @@ import { NOTES } from '../data/dummy-data';
 
 export const NotesContext = createContext({
     notes: [],
-    filteredNotes: [],
-    addNote: ({ content, updateAt }) => {},
-    deleteNote: (id) => {},
-    updateNote: (
-        id,
-        { color, labelIds, content, updateAt, isBookmarked }
-    ) => {},
 });
 
 function notesReducer(state, action) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import {
     View,
     Text,
@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
 import { useRoute } from '@react-navigation/native';
 import { NOTES, LABELS } from '../data/dummy-data';
+import { NotesContext } from '../store/notes-context';
 import { formatDistanceToNow } from 'date-fns';
 import EditFunction from '../components/NoteOutput/EditFunction';
 
@@ -21,7 +22,8 @@ function EditNote() {
     const [isClick, setIsClick] = useState(false);
     const route = useRoute();
     const { noteId } = route.params;
-    const note = NOTES.find((n) => n.id === noteId);
+    const notesCtx = React.useContext(NotesContext);
+    const note = notesCtx.notes.find((n) => n.id === noteId);
     const [content, setContent] = useState(note.content);
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -58,7 +60,7 @@ function EditNote() {
         <TouchableWithoutFeedback onPress={() => setIsClick(false)}>
             <View style={styles.container}>
                 <View style={styles.noteLabel}>
-                    {note.labelIds.map((labelId, index) => (
+                    {note.labelIds?.map((labelId, index) => (
                         <Text
                             key={index}
                             style={styles.noteLabelText}>
