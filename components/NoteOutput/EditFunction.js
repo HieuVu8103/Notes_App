@@ -1,17 +1,53 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useContext } from 'react';
+import { View, StyleSheet, Text, Pressable } from 'react-native';
 import { COLORS, LABELS, NOTES, EDITNAME } from '../../data/dummy-data';
 import { ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { NotesContext } from '../../store/notes-context';
+import { useNavigation } from '@react-navigation/native';
+
 function EditFunction({ isClick }) {
     const route = useRoute();
     const { noteId } = route.params;
-    const note = NOTES.find((n) => n.id === noteId);
+    const notesCtx = React.useContext(NotesContext);
+    const note = notesCtx.notes.find((n) => n.id === noteId);
+    const navigation = useNavigation();
 
     function getLabelByValue(value) {
         const label = LABELS.find((label) => label.id === value);
         return label ? label.label : null;
+    }
+
+    function handler({ funcName }) {
+        if (funcName == 'Delete') {
+            return () => {
+                notesCtx.deleteNote(note.id);
+                navigation.navigate('Notes App');
+            };
+        }
+
+        if (funcName == 'Make a copy') {
+            return () => {
+                notesCtx.addNote({
+                    ...note,
+                    isBookmarked: false,
+                    updateAt: Date.now(),
+                });
+                navigation.navigate('Notes App');
+            };
+        }
+
+        if (funcName == 'Change color') {
+            return (color) => {
+                notesCtx.updateNote(note.id, {
+                    ...note,
+                    updateAt: Date.now(),
+                    color,
+                });
+                navigation.navigate('Notes App');
+            };
+        }
     }
 
     return (
@@ -29,13 +65,20 @@ function EditFunction({ isClick }) {
                             </Text>
                         </View>
                         {COLORS.map((color, index) => (
-                            <View
-                                key={index}
-                                style={[
-                                    styles.colorCircle,
-                                    { backgroundColor: color },
-                                ]}
-                            />
+                            <Pressable
+                                onPress={() => {
+                                    handler({
+                                        funcName: 'Change color',
+                                    })(color);
+                                }}>
+                                <View
+                                    key={index}
+                                    style={[
+                                        styles.colorCircle,
+                                        { backgroundColor: color },
+                                    ]}
+                                />
+                            </Pressable>
                         ))}
                     </View>
                 </ScrollView>
@@ -48,21 +91,32 @@ function EditFunction({ isClick }) {
                         {getLabelByValue(labelId)}
                     </Text>
                 ))}
-                <Text style={styles.noteLabelText}> + Manage Labels</Text>
+                <Pressable
+                    onPress={() => {
+                        navigation.navigate('Manage Labels', { note });
+                    }}>
+                    <Text style={styles.noteLabelText}>
+                        {' '}
+                        + Manage Labels
+                    </Text>
+                </Pressable>
             </View>
             <View>
                 {EDITNAME.map((edit, index) => (
-                    <View
-                        key={index}
-                        style={styles.editCategory}>
-                        <Ionicons
-                            name={edit.img}
-                            size={18}
-                            color='grey'></Ionicons>
-                        <Text style={{ fontSize: 18, color: 'grey' }}>
-                            {edit.editName}
-                        </Text>
-                    </View>
+                    <Pressable
+                        onPress={handler({ funcName: edit.editName })}>
+                        <View
+                            key={index}
+                            style={styles.editCategory}>
+                            <Ionicons
+                                name={edit.img}
+                                size={18}
+                                color='grey'></Ionicons>
+                            <Text style={{ fontSize: 18, color: 'grey' }}>
+                                {edit.editName}
+                            </Text>
+                        </View>
+                    </Pressable>
                 ))}
             </View>
         </View>

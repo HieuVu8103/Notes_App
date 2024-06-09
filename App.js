@@ -15,6 +15,7 @@ import ManageLabels from './screens/ManageLabels';
 import IconButton from './components/UI/IconButtonn';
 import NotesContextProvider from './store/notes-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import TrashNote from './screens/TrashNote';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -69,6 +70,10 @@ export default function App() {
                         <Stack.Screen
                             name='Edit Note'
                             component={EditNote}
+                        />
+                        <Stack.Screen
+                            name='Trash Note'
+                            component={TrashNote}
                         />
                         <Stack.Screen
                             name='Manage Labels'

@@ -1,37 +1,63 @@
-import { Pressable, View, Text, StyleSheet } from "react-native";
+import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { formatDistanceToNow, format } from 'date-fns';
-import { LABELS } from "../../data/dummy-data";
-import { useNavigation } from "@react-navigation/native";
+import { LABELS } from '../../data/dummy-data';
+import { useNavigation } from '@react-navigation/native';
 
-function NoteItem({ id, color, labelIds = [], content, updateAt, isBookmarked }) {
-    const labels = labelIds.map(labelId => {
-        const label = LABELS.find(label => label.id === labelId);
-        return label ? label.label : null;
-    }).filter(Boolean);
+function NoteItem({
+    id,
+    color,
+    labelIds = [],
+    content,
+    updateAt,
+    isBookmarked,
+    type,
+}) {
+    const labels = labelIds
+        .map((labelId) => {
+            const label = LABELS.find((label) => label.id === labelId);
+            return label ? label.label : null;
+        })
+        .filter(Boolean);
 
     const formattedDate = formatDate(updateAt);
     const navigation = useNavigation();
 
     function notePressHanlder() {
-        navigation.navigate("Edit Note", { noteId: id })
+        if (type == 'trash') {
+            navigation.navigate('Trash Note', { noteId: id });
+            console.log('id::', id);
+            return;
+        }
+
+        navigation.navigate('Edit Note', { noteId: id });
     }
     return (
-        <Pressable 
+        <Pressable
             onPress={notePressHanlder}
-            style={({pressed})=> pressed && styles.pressed}
-        >
-            <View style={styles.container}>
+            style={({ pressed }) => pressed && styles.pressed}>
+            <View
+                style={{
+                    ...styles.container,
+                }}>
                 <View style={styles.header}>
-                    <View style={[styles.dot, { backgroundColor: color }]} />
+                    <View
+                        style={[styles.dot, { backgroundColor: color }]}
+                    />
                     <Text style={styles.date}>{formattedDate}</Text>
                     {isBookmarked && (
-                        <Ionicons name="bookmark" size={24} color="gray" />
+                        <Ionicons
+                            name='bookmark'
+                            size={24}
+                            color='gray'
+                        />
                     )}
                 </View>
                 <View style={styles.labelsContainer}>
                     {labels.map((label, index) => (
-                        <Text key={index} style={styles.label}>
+                        <Text
+                            key={index}
+                            style={styles.label}>
                             {label}
                         </Text>
                     ))}
@@ -46,7 +72,10 @@ const formatDate = (date) => {
     const now = new Date();
     const diffInHours = Math.abs(now - date) / (1000 * 60 * 60);
     if (diffInHours < 24) {
-        return formatDistanceToNow(date, { addSuffix: true, includeSeconds: true }).replace('about ', '');
+        return formatDistanceToNow(date, {
+            addSuffix: true,
+            includeSeconds: true,
+        }).replace('about ', '');
     } else {
         return format(date, 'dd/MM/yyyy');
     }
@@ -99,8 +128,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     pressed: {
-        opacity: 0.5
-    }
+        opacity: 0.5,
+    },
 });
 
 export default NoteItem;

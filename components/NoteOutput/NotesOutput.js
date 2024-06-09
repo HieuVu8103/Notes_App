@@ -2,11 +2,16 @@ import { View, StyleSheet, Text } from 'react-native';
 import NotesSumary from './NotesSumary';
 import NotesList from './NotesList';
 
-function NotesOutput({ notes, fallbackText }) {
+function NotesOutput({ notes, fallbackText, type }) {
     let content = <Text style={styles.inforText}>{fallbackText}</Text>;
 
     if (notes.length > 0) {
-        content = <NotesList notes={notes} />;
+        content = (
+            <NotesList
+                notes={notes}
+                type={type}
+            />
+        );
     }
 
     return (
