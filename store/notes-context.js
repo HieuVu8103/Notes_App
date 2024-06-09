@@ -3,6 +3,7 @@ import { NOTES } from '../data/dummy-data';
 
 export const NotesContext = createContext({
     notes: [],
+    labels: [],
 });
 
 function notesReducer(state, action) {
@@ -18,6 +19,7 @@ function notesReducer(state, action) {
             const updatedItem = {
                 ...updatableNote,
                 ...action.payload.data,
+                updateAt: Date.now(),
             };
             const updatedNotes = [...state];
             updatedNotes[updatableNoteindex] = updatedItem;

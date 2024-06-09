@@ -9,16 +9,19 @@ import {
     KeyboardAvoidingView,
     ScrollView,
     Platform,
+    Pressable,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
-import { useRoute } from '@react-navigation/native';
-import { NOTES, LABELS } from '../data/dummy-data';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { LABELS } from '../data/dummy-data';
 import { NotesContext } from '../store/notes-context';
 import { formatDistanceToNow } from 'date-fns';
 import EditFunction from '../components/NoteOutput/EditFunction';
+import IconButton from '../components/UI/IconButtonn';
 
 function EditNote() {
+    const navigation = useNavigation();
     const [isClick, setIsClick] = useState(false);
     const route = useRoute();
     const { noteId } = route.params;
@@ -68,6 +71,7 @@ function EditNote() {
                         </Text>
                     ))}
                 </View>
+
                 <KeyboardAvoidingView
                     style={styles.container}
                     behavior={Platform.OS === 'ios' ? 'padding' : null}>
@@ -82,33 +86,64 @@ function EditNote() {
                         </View>
                     </ScrollView>
                 </KeyboardAvoidingView>
+
                 {!isClick && (
-                    <View style={styles.history_bar}>
-                        <Text>
-                            Edited{' '}
-                            {formatDistanceToNow(new Date(note.updateAt), {
-                                addSuffix: true,
-                            })}
-                        </Text>
-                        <View style={styles.right_bar}>
-                            <Ionicons
-                                name={
-                                    note.isBookmarked
-                                        ? 'bookmark'
-                                        : 'bookmark-outline'
-                                }
-                                size={24}
-                                color='grey'
-                            />
-                            <Entypo
-                                name='dots-three-vertical'
-                                size={18}
-                                color='black'
-                                onPress={() => setIsClick(true)}
-                            />
+                    <>
+                        <View style={styles.history_bar}>
+                            <Text>
+                                Edited{' '}
+                                {formatDistanceToNow(
+                                    new Date(note.updateAt),
+                                    {
+                                        addSuffix: true,
+                                    }
+                                )}
+                            </Text>
+
+                            <View style={styles.right_bar}>
+                                <Pressable
+                                    onPress={() => {
+                                        notesCtx.updateNote(note.id, {
+                                            ...note,
+                                            isBookmarked:
+                                                !note.isBookmarked,
+                                        });
+                                    }}>
+                                    <Ionicons
+                                        name={
+                                            note.isBookmarked
+                                                ? 'bookmark'
+                                                : 'bookmark-outline'
+                                        }
+                                        size={24}
+                                        color='grey'
+                                    />
+                                </Pressable>
+                                <Entypo
+                                    name='dots-three-vertical'
+                                    size={18}
+                                    color='black'
+                                    onPress={() => setIsClick(true)}
+                                />
+                            </View>
                         </View>
-                    </View>
+                        <IconButton
+                            style={styles.saveButton}
+                            icon='checkmark-circle'
+                            size={70}
+                            color='skyblue'
+                            onPress={() => {
+                                notesCtx.updateNote(note.id, {
+                                    ...note,
+                                    content,
+                                });
+
+                                navigation.navigate('Notes App');
+                            }}
+                        />
+                    </>
                 )}
+
                 {isClick && (
                     <TouchableWithoutFeedback
                         onPress={(e) => e.stopPropagation()}>
@@ -179,6 +214,11 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         gap: 50,
+    },
+    saveButton: {
+        position: 'absolute',
+        bottom: 80,
+        right: 30,
     },
 });
 
