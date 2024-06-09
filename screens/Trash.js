@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 import { NotesContext } from '../store/notes-context';
 import { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button } from 'react-native-elements';
 
 function Trash() {
   const navigation = useNavigation();

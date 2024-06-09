@@ -1,8 +1,10 @@
-import { Pressable, View, Text, StyleSheet } from 'react-native';
+import { Pressable, View, Text, StyleSheet, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { formatDistanceToNow, format } from 'date-fns';
 import { LABELS } from '../../data/dummy-data';
 import { useNavigation } from '@react-navigation/native';
+import { useState, useContext } from 'react';
+import { NotesContext } from '../../store/notes-context';
 
 function NoteItem({
     id,
@@ -22,49 +24,89 @@ function NoteItem({
 
     const formattedDate = formatDate(updateAt);
     const navigation = useNavigation();
+    const notesCtx = useContext(NotesContext);
+    const [modalVisible, setModalVisible] = useState(false);
 
-    function notePressHanlder() {
-        if (type == 'trash') {
-            navigation.navigate('Trash Note', { noteId: id });
-            console.log('id::', id);
+    function notePressHandler() {
+        if (type === 'trash') {
+            setModalVisible(true);
             return;
         }
 
         navigation.navigate('Edit Note', { noteId: id });
     }
+
+    const restoreNote = () => {
+        notesCtx.restoreNote({ id, color, labelIds, content, updateAt, isBookmarked });
+        setModalVisible(false);
+    };
+
+    const deleteForever = () => {
+        notesCtx.deleteForever(id);
+        setModalVisible(false);
+    };
+
     return (
-        <Pressable
-            onPress={notePressHanlder}
-            style={({ pressed }) => pressed && styles.pressed}>
-            <View
-                style={{
-                    ...styles.container,
-                }}>
-                <View style={styles.header}>
-                    <View
-                        style={[styles.dot, { backgroundColor: color }]}
-                    />
-                    <Text style={styles.date}>{formattedDate}</Text>
-                    {isBookmarked && (
-                        <Ionicons
-                            name='bookmark'
-                            size={24}
-                            color='gray'
+        <>
+            <Pressable
+                onPress={notePressHandler}
+                style={({ pressed }) => pressed && styles.pressed}>
+                <View
+                    style={{
+                        ...styles.container,
+                    }}>
+                    <View style={styles.header}>
+                        <View
+                            style={[styles.dot, { backgroundColor: color }]}
                         />
-                    )}
+                        <Text style={styles.date}>{formattedDate}</Text>
+                        {isBookmarked && (
+                            <Ionicons
+                                name='bookmark'
+                                size={24}
+                                color='gray'
+                            />
+                        )}
+                    </View>
+                    <View style={styles.labelsContainer}>
+                        {labels.map((label, index) => (
+                            <Text
+                                key={index}
+                                style={styles.label}>
+                                {label}
+                            </Text>
+                        ))}
+                    </View>
+                    <Text style={styles.content}>{content}</Text>
                 </View>
-                <View style={styles.labelsContainer}>
-                    {labels.map((label, index) => (
-                        <Text
-                            key={index}
-                            style={styles.label}>
-                            {label}
-                        </Text>
-                    ))}
+            </Pressable>
+
+            <Modal
+                visible={modalVisible}
+                transparent={true}
+                onRequestClose={() => setModalVisible(false)}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Pressable
+                            style={styles.closeButton}
+                            onPress={() => setModalVisible(false)}>
+                            <Ionicons name="close" size={24} color="black" />
+                        </Pressable>
+                        <Pressable
+                            style={[styles.button, styles.buttonRestore]}
+                            onPress={restoreNote}>
+                            <Text style={styles.textStyle}>Restore</Text>
+                        </Pressable>
+
+                        <Pressable
+                            style={[styles.button, styles.buttonDelete]}
+                            onPress={deleteForever}>
+                            <Text style={styles.textStyle}>Delete forever</Text>
+                        </Pressable>
+                    </View>
                 </View>
-                <Text style={styles.content}>{content}</Text>
-            </View>
-        </Pressable>
+            </Modal>
+        </>
     );
 }
 
@@ -129,6 +171,56 @@ const styles = StyleSheet.create({
     },
     pressed: {
         opacity: 0.5,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        width: 300,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 20,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        marginVertical: 5,
+        width: '100%',
+        alignItems: 'center',
+    },
+    buttonRestore: {
+        backgroundColor: '#2196F3',
+    },
+    buttonDelete: {
+        backgroundColor: '#f44336',
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 2,
+        right: 2,
+    },
+    closeButtonText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#000',
     },
 });
 
