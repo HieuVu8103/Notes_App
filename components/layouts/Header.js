@@ -13,7 +13,7 @@ function Header({ title = 'Notes', isHome, setQuery }) {
             <IconButton
                 style={styles.wrapper}
                 icon={'menu-outline'}
-                size={24}
+                size={30}
                 color='gray'
                 onPress={() => navigation.openDrawer()}
             />
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         position: 'relative',
+        padding: 5
     },
 
     title: {

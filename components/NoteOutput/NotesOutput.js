@@ -2,7 +2,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import NotesSumary from './NotesSumary';
 import NotesList from './NotesList';
 
-function NotesOutput({ notes, fallbackText, type }) {
+function NotesOutput({ notes, fallbackText, type, tab }) {
     let content = <Text style={styles.inforText}>{fallbackText}</Text>;
 
     if (notes.length > 0) {
@@ -16,7 +16,7 @@ function NotesOutput({ notes, fallbackText, type }) {
 
     return (
         <View style={styles.container}>
-            <NotesSumary notes={notes} />
+            <NotesSumary notes={notes} content={tab}/>
             {content}
         </View>
     );

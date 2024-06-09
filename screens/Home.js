@@ -40,7 +40,7 @@ function Home() {
             <NotesOutput
                 notes={query !== '' ? filterNote(query) : notesCtx.notes}
                 fallbackText='No note created.
-        Please click + button to add one!'
+                Please click + button to add one!'
             />
             <View>
                 <IconButton
@@ -60,7 +60,7 @@ export default Home;
 const styles = StyleSheet.create({
     addButton: {
         position: 'absolute',
-        bottom: 20,
+        bottom: 0,
         right: 20,
     },
 });

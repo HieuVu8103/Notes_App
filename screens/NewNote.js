@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     },
     saveButton: {
         position: 'absolute',
-        bottom: 20,
+        bottom: 30,
         right: 20,
     },
 });

@@ -124,7 +124,7 @@ function TrashNote() {
                                 <Pressable
                                     onPress={() => {
                                         notesCtx.restoreNote(note);
-                                        navigation.navigate('Notes');
+                                        navigation.navigate('Trash');
                                     }}>
                                     <Text style={styles.actionButton}>
                                         Restore
@@ -134,7 +134,7 @@ function TrashNote() {
                                 <Pressable
                                     onPress={() => {
                                         notesCtx.deleteForever(note.id);
-                                        navigation.navigate('Notes');
+                                        navigation.navigate('Trash');
                                     }}>
                                     <Text style={styles.actionButton}>
                                         Delete forever
@@ -151,16 +151,16 @@ function TrashNote() {
 
 const styles = StyleSheet.create({
     actionButton: {
-        backgroundColor: 'cyan',
+        backgroundColor: 'gray',
         width: 140,
         textAlign: 'center',
         paddingVertical: 12,
         borderRadius: 10,
         overflow: 'hidden',
+        color: 'white'
     },
     sheet: {
         height: 100,
-        backgroundColor: 'white',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
