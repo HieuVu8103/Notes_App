@@ -66,7 +66,11 @@ function EditFunction({ isClick }) {
                         </View>
                         {COLORS.map((color, index) => (
                             <Pressable
+<<<<<<< HEAD
                             key={index}
+=======
+                                style={({ pressed }) => pressed && styles.pressed}
+>>>>>>> 8cb1996a11ab3902313a899de6145f854963d3fa
                                 onPress={() => {
                                     handler({
                                         funcName: 'Change color',
@@ -93,6 +97,7 @@ function EditFunction({ isClick }) {
                     </Text>
                 ))}
                 <Pressable
+                    style={({ pressed }) => pressed && styles.pressed}
                     onPress={() => {
                         navigation.navigate('Manage Labels', { note });
                     }}>
@@ -105,6 +110,7 @@ function EditFunction({ isClick }) {
             <View>
                 {EDITNAME.map((edit, index) => (
                     <Pressable
+                        style={({ pressed }) => pressed && styles.pressed}
                         onPress={handler({ funcName: edit.editName })}>
                         <View
                             key={index}
@@ -181,6 +187,9 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         gap: 10,
+    },
+    pressed: {
+        opacity: 0.5,
     },
 });
 

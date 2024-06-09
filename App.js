@@ -15,7 +15,7 @@ import ManageLabels from './screens/ManageLabels';
 import IconButton from './components/UI/IconButtonn';
 import NotesContextProvider from './store/notes-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import TrashNote from './screens/TrashNote';
+import TrashNote from './components/TrashNote/TrashNote';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
