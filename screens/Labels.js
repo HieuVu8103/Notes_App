@@ -44,8 +44,13 @@ function Labels() {
     }
 
     const onDeleteNote = (labelId) => {
-        const updatedLabels = LABELS.filter(label => label.id !== labelId);
-        setFilteredLabels(updatedLabels);
+        const indexToRemove = LABELS.findIndex(label => label.id === labelId);
+    
+        if (indexToRemove!== -1) {
+             LABELS.splice(indexToRemove, 1);
+            setFilteredLabels([...LABELS]);
+        }
+    
         setIsDialogVisible(false);
     };
 
