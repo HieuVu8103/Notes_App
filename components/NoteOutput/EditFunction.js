@@ -67,6 +67,7 @@ function EditFunction({ isClick }) {
                         {COLORS.map((color, index) => (
                             <Pressable
                                 style={({ pressed }) => pressed && styles.pressed}
+                                key={index}
                                 onPress={() => {
                                     handler({
                                         funcName: 'Change color',
@@ -85,6 +86,7 @@ function EditFunction({ isClick }) {
                 </ScrollView>
             </View>
             <View style={styles.noteLabel}>
+                <ScrollView horizontal>
                 {note.labelIds.map((labelId, index) => (
                     <Text
                         key={index}
@@ -102,11 +104,13 @@ function EditFunction({ isClick }) {
                         + Manage Labels
                     </Text>
                 </Pressable>
+                </ScrollView>
             </View>
             <View>
                 {EDITNAME.map((edit, index) => (
                     <Pressable
                         style={({ pressed }) => pressed && styles.pressed}
+                        key={index}
                         onPress={handler({ funcName: edit.editName })}>
                         <View
                             key={index}
@@ -171,9 +175,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 4,
         borderRadius: 12,
-        marginRight: 8,
-        marginBottom: 4,
-        maxWidth: 150,
         fontSize: 12,
         color: 'gray',
     },

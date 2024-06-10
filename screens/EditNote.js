@@ -24,9 +24,9 @@ function EditNote() {
     const navigation = useNavigation();
     const [isClick, setIsClick] = useState(false);
     const route = useRoute();
-    const { noteId } = route.params;
+    const noteIds  = route.params.noteId;
     const notesCtx = React.useContext(NotesContext);
-    const note = notesCtx.notes.find((n) => n.id === noteId);
+    const note = notesCtx.notes.find((n) => n.id === noteIds);
     const [content, setContent] = useState(note.content);
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -164,7 +164,6 @@ function EditNote() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
         backgroundColor: '#f0f0f0',
     },
     content: {
