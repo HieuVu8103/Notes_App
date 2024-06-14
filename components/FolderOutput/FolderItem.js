@@ -1,8 +1,10 @@
-import { Pressable, View, StyleSheet, Text } from "react-native";
+import { Pressable, View, StyleSheet, Text } from 'react-native';
 import { formatDistanceToNow, format } from 'date-fns';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
-function FolderItem({id, folder, updateAt}) {
+function FolderItem({ id, name, noteIds, createAt, updateAt }) {
+    const navigate = useNavigation();
 
     const formatDate = (date) => {
         const now = new Date();
@@ -16,34 +18,44 @@ function FolderItem({id, folder, updateAt}) {
             return format(date, 'dd/MM/yyyy');
         }
     };
-    
+
     const formattedDate = formatDate(updateAt);
 
     const notePressHandler = () => {
-        console.log(`Pressed folder: ${id}`);
+        navigate.navigate('NotesInFolder', {
+            folderId: id,
+        });
     };
 
-    return(
+    return (
         <Pressable
             onPress={notePressHandler}
-            style={({ pressed }) => [styles.container, pressed && styles.pressed]}
-        >
+            style={({ pressed }) => [
+                styles.container,
+                pressed && styles.pressed,
+            ]}>
             <View style={styles.content}>
                 <View style={styles.textContainer}>
-                    <Text style={styles.folderName}>{folder}</Text>
+                    <Text style={styles.folderName}>{name}</Text>
                     <View style={styles.detailsContainer}>
                         <View style={styles.noteCount}>
-                            <Text style={styles.noteCountText}>0 notes</Text>
+                            <Text style={styles.noteCountText}>
+                                {noteIds.length}
+                            </Text>
                         </View>
                         <Text style={styles.date}>{formattedDate}</Text>
                     </View>
                 </View>
                 <View style={styles.iconContainer}>
-                    <Ionicons name='chevron-forward' size={40} color='gray' />
+                    <Ionicons
+                        name='chevron-forward'
+                        size={40}
+                        color='gray'
+                    />
                 </View>
             </View>
         </Pressable>
-    )
+    );
 }
 
 export default FolderItem;
@@ -84,7 +96,7 @@ const styles = StyleSheet.create({
     },
     noteCountText: {
         color: 'lightseagreen',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     date: {
         color: 'gray',

@@ -1,7 +1,9 @@
 class Folder {
-    constructor(id, folder, updateAt) {
+    constructor(id, name, noteIds, createAt, updateAt) {
         this.id = id;
-        this.folder = folder;
+        this.name = name;
+        this.noteIds = noteIds;
+        this.createAt = createAt;
         this.updateAt = updateAt;
     }
 }

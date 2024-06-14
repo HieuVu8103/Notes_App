@@ -70,10 +70,21 @@ export const TRASH = [
 ];
 
 export const FOLDERS = [
-    new Folder("f1", "Week1", new Date('2024-6-14T12:30:00'),),
-    new Folder("f2", "Week2", new Date('2024-7-08T12:30:00')),
+    new Folder(
+        'f1',
+        'Week1',
+        [],
+        new Date('2024-6-14T12:30:00'),
+        new Date('2024-6-14T12:30:00')
+    ),
+    new Folder(
+        'f2',
+        'Week2',
+        [],
+        new Date('2024-7-08T12:30:00'),
+        new Date('2024-6-14T12:30:00')
+    ),
 ];
-
 
 export const EDITNAME = [
     new Edit('clipboard-outline', 'Copy to Clipboard'),

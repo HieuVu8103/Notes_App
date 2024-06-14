@@ -16,6 +16,8 @@ import IconButton from './components/UI/IconButtonn';
 import NotesContextProvider from './store/notes-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TrashNote from './components/TrashNote/TrashNote';
+import NotesInFolder from './screens/NotesInFolder';
+import NotesWithFolder from './screens/NotesWithFolder';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,7 +39,7 @@ function NotesApp({ navigation }) {
                 />
                 <Drawer.Screen
                     name='Folders'
-                    component={Folders}
+                    component={FolderStack}
                 />
                 <Drawer.Screen
                     name='Trash'
@@ -83,6 +85,29 @@ export default function App() {
                 </NavigationContainer>
             </NotesContextProvider>
         </>
+    );
+}
+
+function FolderStack() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name='Folders stack'
+                component={Folders}
+                options={{ headerShown: false, title: 'folders' }}
+            />
+            <Stack.Screen
+                name='NotesInFolder'
+                component={NotesInFolder}
+                options={{ headerShown: true, title: null }}
+            />
+
+            <Stack.Screen
+                name='Notes with folder'
+                component={NotesWithFolder}
+                options={{ title: 'Notes' }}
+            />
+        </Stack.Navigator>
     );
 }
 
