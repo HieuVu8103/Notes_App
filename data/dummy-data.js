@@ -1,6 +1,8 @@
 import Note from '../models/note';
 import Label from '../models/label';
 import Edit from '../models/edit';
+import Folder from '../models/folder';
+
 export const LABELS = [
     new Label('l1', 'React Native'),
     new Label('l2', 'Final Exam'),
@@ -66,6 +68,12 @@ export const TRASH = [
         new Date('2024-7-08T12:30:00')
     ),
 ];
+
+export const FOLDERS = [
+    new Folder("f1", "Week1", new Date('2024-6-14T12:30:00'),),
+    new Folder("f2", "Week2", new Date('2024-7-08T12:30:00')),
+];
+
 
 export const EDITNAME = [
     new Edit('clipboard-outline', 'Copy to Clipboard'),

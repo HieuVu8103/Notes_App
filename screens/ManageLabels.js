@@ -73,7 +73,7 @@ function ManageLabels() {
         />
       </View>
       {isOk && (
-        <View>
+        <View style={styles.button} >
           <Button onPress={pushLabel} title="Confirm" />
         </View>
       )}
@@ -113,6 +113,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
+  button: {
+    marginBottom: 30,
+  }
 });
 
 export default ManageLabels;
