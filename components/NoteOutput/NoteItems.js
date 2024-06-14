@@ -30,7 +30,6 @@ function NoteItem({
             return label ? label.label : null;
         })
         .filter(Boolean);
-
     const formattedDate = formatDate(updateAt);
     const navigation = useNavigation();
     const notesCtx = useContext(NotesContext);
@@ -96,7 +95,7 @@ function NoteItem({
                         <View
                             style={[
                                 styles.dot,
-                                { backgroundColor: color },
+                                { backgroundColor: color},
                             ]}
                         />
 

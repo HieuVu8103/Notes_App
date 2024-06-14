@@ -18,7 +18,6 @@ function ManageLabels() {
   const noteId = route.params.note.id;
   const notesContext = useContext(NotesContext);
   const note = notesContext.notes.find((note) => note.id === noteId);
-  const [isOk, setIsOk] = useState(note.labelIds.length > 0);
   const [chosenLabels, setChosenLabels] = useState(note.labelIds);
 
   function handleLabel(labelId) {
@@ -29,7 +28,6 @@ function ManageLabels() {
       } else {
         updatedLabels = [...prev, labelId];
       }
-      setIsOk(updatedLabels.length > 0);
       return updatedLabels;
     });
   }
@@ -72,11 +70,9 @@ function ManageLabels() {
           numColumns={3}
         />
       </View>
-      {isOk && (
         <View style={styles.button} >
           <Button onPress={pushLabel} title="Confirm" />
         </View>
-      )}
     </>
   );
 }

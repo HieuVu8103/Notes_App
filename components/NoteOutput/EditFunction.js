@@ -56,13 +56,20 @@ function EditFunction({ isClick }) {
                 <ScrollView horizontal>
                     <View style={styles.color_bar}>
                         <View style={styles.emptyCircle}>
-                            <Text
-                                style={{
-                                    textAlign: 'center',
-                                    fontSize: 12,
+                        <Pressable
+                                style={({ pressed }) => pressed && styles.pressed}
+                                onPress={() => {
+                                    handler({
+                                        funcName: 'Change color',
+                                    })('transparent');
                                 }}>
-                                No color
-                            </Text>
+                                <View
+                                    style={[
+                                        styles.colorCircle,
+                                        { backgroundColor: 'transparent' },
+                                    ]}
+                                ><Text style={{ textAlign: 'center', fontSize: 12}}>No color</Text></View>
+                            </Pressable>
                         </View>
                         {COLORS.map((color, index) => (
                             <Pressable
