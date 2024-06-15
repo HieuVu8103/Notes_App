@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         position: 'relative',
-        padding: 5
+        padding: 5,
+        marginHorizontal: 10,
     },
 
     title: {

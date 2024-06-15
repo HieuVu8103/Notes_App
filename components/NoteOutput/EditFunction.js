@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { View, StyleSheet, Text, Pressable } from 'react-native';
+import { View, StyleSheet, Text, Pressable, SafeAreaView } from 'react-native';
 import { COLORS, LABELS, NOTES, EDITNAME } from '../../data/dummy-data';
 import { ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
@@ -104,7 +104,12 @@ function EditFunction({ isClick }) {
                 <Pressable
                     style={({ pressed }) => pressed && styles.pressed}
                     onPress={() => {
-                        navigation.navigate('Manage Labels', { note });
+                        navigation.navigate('Manage Labels', {
+                            note: {
+                                ...note,
+                                updateAt: Date.now(),
+                            },
+                        });
                     }}>
                     <Text style={styles.noteLabelText}>
                         {' '}
@@ -138,6 +143,9 @@ function EditFunction({ isClick }) {
 }
 
 const styles = StyleSheet.create({
+    safeArea: {
+
+    },
     container: {
         backgroundColor: 'white',
     },
