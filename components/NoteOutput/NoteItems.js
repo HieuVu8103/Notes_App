@@ -46,20 +46,21 @@ function NoteItem({
             return;
         }
 
-        if (type === 'folder') {
-            setChecked((prev) => !prev);
+        if (type === 'noteInFolder') {
             if (checked) {
                 notesCtx.removeNoteFromFolder({
                     folderId,
                     noteId: id,
                 });
-                return;
+            } else {
+                notesCtx.addNoteToFolder({
+                    folderId,
+                    noteId: id,
+                });
             }
 
-            notesCtx.addNoteToFolder({
-                folderId,
-                noteId: id,
-            });
+            setChecked((prev) => !prev);
+
             return;
         }
 
@@ -109,29 +110,30 @@ function NoteItem({
                                 color='gray'
                             />
                         )}
-
-                        {type == 'folder' && (
-                            <TouchableOpacity
-                                style={styles.checkbox}
-                                onPress={() => {
-                                    setChecked(true);
-                                }}>
-                                <View
-                                    style={[
-                                        styles.checkboxIcon,
-                                        checked && styles.checked,
-                                    ]}>
-                                    {checked && (
-                                        <AntDesign
-                                            name='check'
-                                            size={16}
-                                            color='white'
-                                        />
-                                    )}
-                                </View>
-                            </TouchableOpacity>
-                        )}
                     </View>
+
+                    {type == 'noteInFolder' && (
+                        <TouchableOpacity
+                            style={styles.checkbox}
+                            onPress={() => {
+                                setChecked(true);
+                            }}>
+                            <View
+                                style={[
+                                    styles.checkboxIcon,
+                                    checked && styles.checked,
+                                ]}>
+                                {checked && (
+                                    <AntDesign
+                                        name='check'
+                                        size={16}
+                                        color='white'
+                                    />
+                                )}
+                            </View>
+                        </TouchableOpacity>
+                    )}
+
                     <View style={styles.labelsContainer}>
                         {labels.map((label, index) => (
                             <Text
@@ -296,13 +298,11 @@ const styles = StyleSheet.create({
 
     checkbox: {
         flexDirection: 'row',
-        alignItems: 'center',
-        marginVertical: 10,
         position: 'absolute',
-
-        right: 0,
-        top: 50,
+        right: 20,
+        bottom: 20,
     },
+
     checkboxIcon: {
         width: 20,
         height: 20,

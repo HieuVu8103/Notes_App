@@ -34,6 +34,7 @@ function NotesInFolder() {
                     <NotesList
                         notes={notesInFolder}
                         folderId={folderId}
+                        type={'noteInFolder'}
                     />
                 </View>
             )}

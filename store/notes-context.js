@@ -137,6 +137,49 @@ function notesReducer(state, action) {
             return { ...state };
         }
 
+        case 'ADD_LABEL': {
+            const id = randomString();
+            return {
+                ...state,
+                labels: [
+                    ...state.labels,
+                    {
+                        id,
+                        label: action.payload,
+                    },
+                ],
+            };
+        }
+
+        case 'UPDATE_LABEL': {
+            const udatedLabels = state.labels.map((l) => {
+                if (l.id === action.payload.id) {
+                    console.log(action.payload.content);
+                    return {
+                        id: l.id,
+                        label: action.payload.content,
+                    };
+                }
+
+                return l;
+            });
+
+            return {
+                ...state,
+                labels: udatedLabels,
+            };
+        }
+
+        case 'DELETE_LABEL': {
+            console.log(action.payload);
+            return {
+                ...state,
+                labels: state.labels.filter(
+                    (label) => label.id !== action.payload
+                ),
+            };
+        }
+
         default:
             return state;
     }
@@ -183,9 +226,34 @@ function NotesContextProvider({ children }) {
         });
     }
 
+    function addLabel({ content }) {
+        dispatch({
+            type: 'ADD_LABEL',
+            payload: content,
+        });
+    }
+
+    function updateLabel({ id, content }) {
+        dispatch({
+            type: 'UPDATE_LABEL',
+            payload: {
+                id,
+                content,
+            },
+        });
+    }
+
+    function deleteLabel({ id }) {
+        dispatch({
+            type: 'DELETE_LABEL',
+            payload: id,
+        });
+    }
+
     const value = {
         notes: notesSate.notes,
         trash: notesSate.trash,
+        labels: notesSate.labels,
         folders: noteStates.folders,
         addNote: addNote,
         deleteNote: deleteNote,
@@ -195,6 +263,9 @@ function NotesContextProvider({ children }) {
         addNoteToFolder,
         removeNoteFromFolder,
         createFolder,
+        addLabel,
+        updateLabel,
+        deleteLabel,
     };
 
     return (
