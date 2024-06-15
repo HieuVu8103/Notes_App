@@ -1,88 +1,94 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { View, Text, FlatList, StyleSheet, TextInput, TouchableOpacity, Modal } from 'react-native';
-import { LABELS } from '../data/dummy-data';
+import {
+    View,
+    Text,
+    FlatList,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+    Modal,
+} from 'react-native';
 import Header from '../components/layouts/Header';
-import Label from '../models/label';
 import ModifyLabel from '../components/NoteOutput/ModifyLabel';
+import { useContext } from 'react';
+import { NotesContext } from '../store/notes-context';
 
 function Labels() {
+    const noteCtx = useContext(NotesContext);
     const [chosenLabels, setChosenLabels] = useState([]);
     const [inputText, setInputText] = useState('');
-    const [filteredLabels, setFilteredLabels] = useState(LABELS);
-    const [labelCounter, setLabelCounter] = useState(LABELS.length + 1);  
+    const [filteredLabels, setFilteredLabels] = useState(noteCtx.labels);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
-    const [selectedLabel, setSelectedLabel] = useState(null); 
-    
+    const [selectedLabel, setSelectedLabel] = useState(null);
+
     function handleLabel(labelId) {
         setChosenLabels((prev) => {
             if (prev.includes(labelId)) {
-                return prev.filter(id => id !== labelId);
+                return prev.filter((id) => id !== labelId);
             } else {
                 return [labelId];
             }
         });
 
-        const label = LABELS.find(label => label.id === labelId);
+        const label = noteCtx.labels.find((label) => label.id === labelId);
         setSelectedLabel(label);
         setIsDialogVisible(true);
     }
 
     function searchLabel(labelNames) {
-        const searchResult = LABELS.filter(label => 
+        const searchResult = noteCtx.labels.filter((label) =>
             label.label.toLowerCase().includes(labelNames.toLowerCase())
         );
         setFilteredLabels(searchResult);
     }
 
     function addLabel() {
-        const newLabel = new Label(`l${labelCounter}`, inputText);
-        LABELS.push(newLabel);
-        setFilteredLabels([...LABELS]);
+        noteCtx.addLabel({
+            content: inputText,
+        });
         setInputText('');
-        setLabelCounter(labelCounter + 1);
     }
 
-    const onDeleteNote = (labelId) => {
-        const updatedLabels = LABELS.filter(label => label.id !== labelId);
-        setFilteredLabels(updatedLabels);
-        setIsDialogVisible(false);
-    };
-
-
-    function handleLabelChange(labelId, newText){
-        setFilteredLabels(prevLabels => {
-            return prevLabels.map(label => {
-                if (label.id === labelId) {
-                    label.label = newText;
-                }
-                return label;
-            });
+    const onDeleteLabel = (labelId) => {
+        noteCtx.deleteLabel({
+            id: labelId,
         });
         setIsDialogVisible(false);
     };
+
+    function handleLabelChange(labelId, newText) {
+        noteCtx.updateLabel({
+            id: labelId,
+            content: newText,
+        });
+        setIsDialogVisible(false);
+    }
 
     useEffect(() => {
         searchLabel(inputText);
     }, [inputText]);
 
     const renderLabelItem = ({ item }) => (
-        <TouchableOpacity 
-            style={[styles.labelContainer, chosenLabels.includes(item.id) && styles.labelContainerChosen]} 
-            onPress={() => handleLabel(item.id)}
-        >
+        <TouchableOpacity
+            style={[
+                styles.labelContainer,
+                chosenLabels.includes(item.id) &&
+                    styles.labelContainerChosen,
+            ]}
+            onPress={() => handleLabel(item.id)}>
             <Text style={styles.labelText}>{item.label}</Text>
         </TouchableOpacity>
     );
 
     return (
         <>
-            <Header title="Labels" />
+            <Header title='Labels' />
             <View>
-                <TextInput 
-                    style={styles.input} 
-                    placeholder="Search or create labels..." 
-                    onChangeText={setInputText} 
+                <TextInput
+                    style={styles.input}
+                    placeholder='Search or create labels...'
+                    onChangeText={setInputText}
                     value={inputText}
                 />
             </View>
@@ -90,7 +96,9 @@ function Labels() {
                 <Text>{filteredLabels.length} totals</Text>
             </View>
             {inputText.length > 0 && (
-                <TouchableOpacity style={{ marginLeft: 10 }} onPress={addLabel}>
+                <TouchableOpacity
+                    style={{ marginLeft: 10 }}
+                    onPress={addLabel}>
                     <Text style={{ color: 'skyblue', fontWeight: 'bold' }}>
                         + Create label {inputText}
                     </Text>
@@ -98,23 +106,24 @@ function Labels() {
             )}
             <View style={styles.container}>
                 <FlatList
-                    data={filteredLabels}
-                    keyExtractor={(item) => item.id.toString()}
+                    data={
+                        inputText !== '' ? filteredLabels : noteCtx.labels
+                    }
+                    keyExtractor={(item) => item.id}
                     renderItem={renderLabelItem}
                     numColumns={3}
                 />
             </View>
             <Modal
                 visible={isDialogVisible}
-                animationType="slide"
+                animationType='slide'
                 transparent={true}
-                onRequestClose={() => setIsDialogVisible(false)}
-            >
+                onRequestClose={() => setIsDialogVisible(false)}>
                 <View style={styles.modalContainer}>
                     <ModifyLabel
                         label={selectedLabel}
                         onLabelChange={handleLabelChange}
-                        onDeleteNote={onDeleteNote}
+                        onDeleteLabel={onDeleteLabel}
                     />
                 </View>
             </Modal>

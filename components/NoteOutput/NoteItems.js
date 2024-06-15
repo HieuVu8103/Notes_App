@@ -1,10 +1,18 @@
-import { Pressable, View, Text, StyleSheet, Modal } from 'react-native';
+import {
+    Pressable,
+    View,
+    Text,
+    StyleSheet,
+    Modal,
+    TouchableOpacity,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { formatDistanceToNow, format } from 'date-fns';
 import { LABELS } from '../../data/dummy-data';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useContext } from 'react';
 import { NotesContext } from '../../store/notes-context';
+import { AntDesign } from '@expo/vector-icons';
 
 function NoteItem({
     id,
@@ -14,6 +22,7 @@ function NoteItem({
     updateAt,
     isBookmarked,
     type,
+    folderId,
 }) {
     const labels = labelIds
         .map((labelId) => {
@@ -21,11 +30,14 @@ function NoteItem({
             return label ? label.label : null;
         })
         .filter(Boolean);
-
     const formattedDate = formatDate(updateAt);
     const navigation = useNavigation();
     const notesCtx = useContext(NotesContext);
     const [modalVisible, setModalVisible] = useState(false);
+
+    const folder = notesCtx.folders.find((f) => f.id === folderId);
+    const isInFolder = folder?.noteIds.find((i) => i === id);
+    const [checked, setChecked] = useState(isInFolder);
 
     function notePressHandler() {
         if (type === 'trash') {
@@ -33,11 +45,36 @@ function NoteItem({
             return;
         }
 
+        if (type === 'noteInFolder') {
+            if (checked) {
+                notesCtx.removeNoteFromFolder({
+                    folderId,
+                    noteId: id,
+                });
+            } else {
+                notesCtx.addNoteToFolder({
+                    folderId,
+                    noteId: id,
+                });
+            }
+
+            setChecked((prev) => !prev);
+
+            return;
+        }
+
         navigation.navigate('Edit Note', { noteId: id });
     }
 
     const restoreNote = () => {
-        notesCtx.restoreNote({ id, color, labelIds, content, updateAt, isBookmarked });
+        notesCtx.restoreNote({
+            id,
+            color,
+            labelIds,
+            content,
+            updateAt,
+            isBookmarked,
+        });
         setModalVisible(false);
     };
 
@@ -57,9 +94,14 @@ function NoteItem({
                     }}>
                     <View style={styles.header}>
                         <View
-                            style={[styles.dot, { backgroundColor: color }]}
+                            style={[
+                                styles.dot,
+                                { backgroundColor: color},
+                            ]}
                         />
+
                         <Text style={styles.date}>{formattedDate}</Text>
+
                         {isBookmarked && (
                             <Ionicons
                                 name='bookmark'
@@ -68,6 +110,29 @@ function NoteItem({
                             />
                         )}
                     </View>
+
+                    {type == 'noteInFolder' && (
+                        <TouchableOpacity
+                            style={styles.checkbox}
+                            onPress={() => {
+                                setChecked(true);
+                            }}>
+                            <View
+                                style={[
+                                    styles.checkboxIcon,
+                                    checked && styles.checked,
+                                ]}>
+                                {checked && (
+                                    <AntDesign
+                                        name='check'
+                                        size={16}
+                                        color='white'
+                                    />
+                                )}
+                            </View>
+                        </TouchableOpacity>
+                    )}
+
                     <View style={styles.labelsContainer}>
                         {labels.map((label, index) => (
                             <Text
@@ -90,7 +155,11 @@ function NoteItem({
                         <Pressable
                             style={styles.closeButton}
                             onPress={() => setModalVisible(false)}>
-                            <Ionicons name="close" size={24} color="black" />
+                            <Ionicons
+                                name='close'
+                                size={24}
+                                color='black'
+                            />
                         </Pressable>
                         <Pressable
                             style={[styles.button, styles.buttonRestore]}
@@ -101,7 +170,9 @@ function NoteItem({
                         <Pressable
                             style={[styles.button, styles.buttonDelete]}
                             onPress={deleteForever}>
-                            <Text style={styles.textStyle}>Delete forever</Text>
+                            <Text style={styles.textStyle}>
+                                Delete forever
+                            </Text>
                         </Pressable>
                     </View>
                 </View>
@@ -125,6 +196,7 @@ const formatDate = (date) => {
 
 const styles = StyleSheet.create({
     container: {
+        position: 'relative',
         marginVertical: 8,
         marginHorizontal: 16,
         padding: 16,
@@ -221,6 +293,26 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: '#000',
+    },
+
+    checkbox: {
+        flexDirection: 'row',
+        position: 'absolute',
+        right: 20,
+        bottom: 20,
+    },
+
+    checkboxIcon: {
+        width: 20,
+        height: 20,
+        borderWidth: 1,
+        borderColor: '#999',
+        borderRadius: 3,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    checked: {
+        backgroundColor: 'blue',
     },
 });
 

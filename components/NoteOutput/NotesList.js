@@ -5,7 +5,7 @@ function renderNoteItem(itemData) {
     return;
 }
 
-function NotesList({ notes, type }) {
+function NotesList({ notes, type, folderId }) {
     return (
         <FlatList
             data={notes}
@@ -13,6 +13,7 @@ function NotesList({ notes, type }) {
                 <NoteItem
                     type={type}
                     {...item}
+                    folderId={folderId}
                 />
             )}
             keyExtractor={(item) => item.id}

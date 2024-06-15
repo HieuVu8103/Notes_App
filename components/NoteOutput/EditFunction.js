@@ -1,13 +1,18 @@
 import React, { useEffect, useContext } from 'react';
-import { View, StyleSheet, Text, Pressable } from 'react-native';
+<<<<<<< HEAD
+import { View, StyleSheet, Text, Pressable, SafeAreaView } from 'react-native';
 import { COLORS, LABELS, NOTES, EDITNAME } from '../../data/dummy-data';
+=======
+import { View, StyleSheet, Text, Pressable } from 'react-native';
+import { COLORS, EDITNAME } from '../../data/dummy-data';
+>>>>>>> 8cce7a456b224547c0f22fda891626b80f81ae6a
 import { ScrollView } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { NotesContext } from '../../store/notes-context';
 import { useNavigation } from '@react-navigation/native';
 
-function EditFunction({ isClick }) {
+function EditFunction() {
     const route = useRoute();
     const { noteId } = route.params;
     const notesCtx = React.useContext(NotesContext);
@@ -15,7 +20,7 @@ function EditFunction({ isClick }) {
     const navigation = useNavigation();
 
     function getLabelByValue(value) {
-        const label = LABELS.find((label) => label.id === value);
+        const label = notesCtx.labels.find((label) => label.id === value);
         return label ? label.label : null;
     }
 
@@ -56,17 +61,26 @@ function EditFunction({ isClick }) {
                 <ScrollView horizontal>
                     <View style={styles.color_bar}>
                         <View style={styles.emptyCircle}>
-                            <Text
-                                style={{
-                                    textAlign: 'center',
-                                    fontSize: 12,
+                        <Pressable
+                                style={({ pressed }) => pressed && styles.pressed}
+                                onPress={() => {
+                                    handler({
+                                        funcName: 'Change color',
+                                    })('transparent');
                                 }}>
-                                No color
-                            </Text>
+                                <View
+                                    style={[
+                                        styles.colorCircle,
+                                        { backgroundColor: 'transparent' },
+                                    ]}
+                                ><Text style={{ textAlign: 'center', fontSize: 12}}>No color</Text></View>
+                            </Pressable>
                         </View>
                         {COLORS.map((color, index) => (
                             <Pressable
-                                style={({ pressed }) => pressed && styles.pressed}
+                                style={({ pressed }) =>
+                                    pressed && styles.pressed
+                                }
                                 key={index}
                                 onPress={() => {
                                     handler({
@@ -87,6 +101,7 @@ function EditFunction({ isClick }) {
             </View>
             <View style={styles.noteLabel}>
                 <ScrollView horizontal>
+<<<<<<< HEAD
                 {note.labelIds.map((labelId, index) => (
                     <Text
                         key={index}
@@ -97,13 +112,37 @@ function EditFunction({ isClick }) {
                 <Pressable
                     style={({ pressed }) => pressed && styles.pressed}
                     onPress={() => {
-                        navigation.navigate('Manage Labels', { note });
+                        navigation.navigate('Manage Labels', {
+                            note: {
+                                ...note,
+                                updateAt: Date.now(),
+                            },
+                        });
                     }}>
                     <Text style={styles.noteLabelText}>
                         {' '}
                         + Manage Labels
                     </Text>
                 </Pressable>
+=======
+                    {note.labelIds.map((labelId, index) => (
+                        <Text
+                            key={index}
+                            style={styles.noteLabelText}>
+                            {getLabelByValue(labelId)}
+                        </Text>
+                    ))}
+                    <Pressable
+                        style={({ pressed }) => pressed && styles.pressed}
+                        onPress={() => {
+                            navigation.navigate('Manage Labels', { note });
+                        }}>
+                        <Text style={styles.noteLabelText}>
+                            {' '}
+                            + Manage Labels
+                        </Text>
+                    </Pressable>
+>>>>>>> 8cce7a456b224547c0f22fda891626b80f81ae6a
                 </ScrollView>
             </View>
             <View>
@@ -131,6 +170,9 @@ function EditFunction({ isClick }) {
 }
 
 const styles = StyleSheet.create({
+    safeArea: {
+
+    },
     container: {
         backgroundColor: 'white',
     },
