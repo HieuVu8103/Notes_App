@@ -24,7 +24,7 @@ function EditNote() {
     const navigation = useNavigation();
     const [isClick, setIsClick] = useState(false);
     const route = useRoute();
-    const noteIds  = route.params.noteId;
+    const noteIds = route.params.noteId;
     const notesCtx = React.useContext(NotesContext);
     const note = notesCtx.notes.find((n) => n.id === noteIds);
     const [content, setContent] = useState(note.content);
@@ -122,6 +122,9 @@ function EditNote() {
                                 <Entypo
                                     name='dots-three-vertical'
                                     size={18}
+                                    style={{
+                                        padding: 5,
+                                    }}
                                     color='black'
                                     onPress={() => setIsClick(true)}
                                 />
@@ -212,12 +215,14 @@ const styles = StyleSheet.create({
     right_bar: {
         display: 'flex',
         flexDirection: 'row',
+        alignItems: 'center',
         gap: 50,
     },
     saveButton: {
         position: 'absolute',
         bottom: 80,
         right: 20,
+        padding: 10,
     },
 });
 

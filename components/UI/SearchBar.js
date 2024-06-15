@@ -6,7 +6,7 @@ function SearchBar({ searchText, setQuery, hiddenSearch, filterNote }) {
     return (
         <View style={styles.searchBar}>
             <IconButton
-                style={styles.wrapper}
+                style={styles.button}
                 icon={'arrow-back-outline'}
                 size={24}
                 color='gray'
@@ -24,7 +24,7 @@ function SearchBar({ searchText, setQuery, hiddenSearch, filterNote }) {
             />
 
             <IconButton
-                style={styles.close}
+                style={styles.button}
                 icon={'close-outline'}
                 size={24}
                 color='gray'
@@ -46,11 +46,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
 
         flexDirection: 'row',
+        alignItems: 'center',
     },
     input: {
         flex: 1,
     },
-    close: {
-        marginLeft: 'auto',
+    button: {
+        alignItems: 'center',
+        height: 36,
     },
 });
