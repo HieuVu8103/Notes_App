@@ -40,7 +40,7 @@ function FolderItem({ id, name, noteIds, createAt, updateAt }) {
                     <View style={styles.detailsContainer}>
                         <View style={styles.noteCount}>
                             <Text style={styles.noteCountText}>
-                                {noteIds.length}
+                                {noteIds.length} notes
                             </Text>
                         </View>
                         <Text style={styles.date}>{formattedDate}</Text>

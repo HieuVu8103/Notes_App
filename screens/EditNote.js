@@ -31,9 +31,10 @@ function EditNote() {
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
     function getLabelByValue(value) {
-        const label = LABELS.find((label) => label.id === value);
+        const label = notesCtx.labels.find((label) => label.id === value);
         return label ? label.label : null;
     }
+    
 
     function handleContentChange(text) {
         setContent(text);

@@ -22,6 +22,13 @@ function FoldersOutput({ folders }) {
 
     const noteCtx = useContext(NotesContext);
 
+    const handleCreateFolder = () => {
+        const name = folderName.trim() === '' ? 'New Folder' : folderName;
+        noteCtx.createFolder(name);
+        setModalVisible(false);
+        setFolderName('');
+    };
+
     return (
         <View style={styles.container}>
             <FoldersSumary folders={folders} />
@@ -44,11 +51,7 @@ function FoldersOutput({ folders }) {
                         <View style={styles.buttonWrap}>
                             <TouchableOpacity
                                 style={styles.button}
-                                onPress={() => {
-                                    noteCtx.createFolder(folderName);
-                                    setModalVisible(false);
-                                    setFolderName('');
-                                }}>
+                                onPress={handleCreateFolder}>
                                 <Text style={styles.buttonText}>
                                     Create
                                 </Text>

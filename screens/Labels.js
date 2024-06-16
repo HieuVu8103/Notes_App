@@ -14,7 +14,6 @@ import Header from '../components/layouts/Header';
 import ModifyLabel from '../components/NoteOutput/ModifyLabel';
 import { useContext } from 'react';
 import { NotesContext } from '../store/notes-context';
-import { Ionicons } from '@expo/vector-icons';
 
 function Labels() {
     const noteCtx = useContext(NotesContext);

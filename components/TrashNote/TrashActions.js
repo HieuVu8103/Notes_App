@@ -16,10 +16,10 @@ const TrashActions = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.restoreButton} onPress={restoreAllNotes}>
-        <Text style={styles.buttonText}>Restore</Text>
+        <Text style={styles.buttonText}>Restore All</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.deleteButton} onPress={deleteAllNotes}>
-        <Text style={styles.buttonText}>Empty</Text>
+        <Text style={styles.buttonText}>Empty Trash</Text>
       </TouchableOpacity>
     </View>
   );
