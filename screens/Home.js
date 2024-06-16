@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import NotesOutput from '../components/NoteOutput/NotesOutput';
 import Header from '../components/layouts/Header';
@@ -28,27 +27,29 @@ function Home() {
     }, [navigation]);
 
     return (
-            <View style={[styles.container]}>
-                <Header
-                    isHome
-                    title='Notes'
-                    setQuery={setQuery}
-                />
+        <View style={[styles.container]}>
+            <Header
+                isHome
+                title='Notes'
+                setQuery={setQuery}
+            />
 
-                <NotesOutput
-                    notes={query !== '' ? filterNote(query) : notesCtx.notes}
-                    fallbackText='No note created. Please click + button to add one!'
+            <NotesOutput
+                query={query}
+                notes={query !== '' ? filterNote(query) : notesCtx.notes}
+                fallbackText='No note created. Please click + button to add one!'
+            />
+
+            <View>
+                <IconButton
+                    style={styles.addButton}
+                    icon={'add-circle'}
+                    size={70}
+                    color='skyblue'
+                    onPress={() => navigation.navigate('New Note')}
                 />
-                <View>
-                    <IconButton
-                        style={styles.addButton}
-                        icon={'add-circle'}
-                        size={70}
-                        color='skyblue'
-                        onPress={() => navigation.navigate('New Note')}
-                    />
-                </View>
             </View>
+        </View>
     );
 }
 

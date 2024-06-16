@@ -1,23 +1,33 @@
 import { View, StyleSheet, Text } from 'react-native';
 import NotesSumary from './NotesSumary';
 import NotesList from './NotesList';
+import { useContext } from 'react';
+import { NotesContext } from '../../store/notes-context';
 
-function NotesOutput({ notes, fallbackText, type, tab }) {
-    let content = <Text style={styles.inforText}>{fallbackText}</Text>;
-
-    if (notes.length > 0) {
-        content = (
-            <NotesList
-                notes={notes}
-                type={type}
-            />
-        );
-    }
-
+function NotesOutput({ notes, type, tab, query }) {
+    const noteCtx = useContext(NotesContext);
     return (
         <View style={styles.container}>
-            <NotesSumary notes={notes} content={tab}/>
-            {content}
+            <NotesSumary
+                notes={notes}
+                content={tab}
+            />
+            {notes.length > 0 && (
+                <NotesList
+                    notes={notes}
+                    type={type}
+                />
+            )}
+
+            {noteCtx.notes.length === 0 && (
+                <Text style={styles.inforText}>
+                    Please add a new note ...
+                </Text>
+            )}
+
+            {noteCtx.notes.length !== 0 && notes.length === 0 && (
+                <Text style={styles.inforText}>Not found ...</Text>
+            )}
         </View>
     );
 }
@@ -29,9 +39,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     inforText: {
-        color: 'black',
+        color: 'gray',
         fontSize: 16,
-        textAlign: 'center',
         marginTop: 32,
+        marginLeft: 20,
     },
 });
