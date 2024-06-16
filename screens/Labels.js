@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import {
     View,
     Text,
@@ -8,13 +7,14 @@ import {
     TextInput,
     TouchableOpacity,
     Modal,
-    Pressable
+    Pressable, Platform, StatusBar
 } from 'react-native';
 import Header from '../components/layouts/Header';
 import ModifyLabel from '../components/NoteOutput/ModifyLabel';
 import { useContext } from 'react';
 import { NotesContext } from '../store/notes-context';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native';
 
 function Labels() {
     const noteCtx = useContext(NotesContext);
@@ -91,6 +91,7 @@ function Labels() {
     return (
         <>
             <Header title='Labels' />
+            <SafeAreaView style={styles.safeArea}>
             <View>
                 <TextInput
                     style={styles.input}
@@ -134,11 +135,15 @@ function Labels() {
                     />
                 </View>
             </Modal>
+            </SafeAreaView>
         </>
     );
 }
 
 const styles = StyleSheet.create({
+    safeArea: {
+        flex: 1,
+    },
     container: {
         flex: 1,
         padding: 16,
@@ -167,7 +172,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'blue',
     },
     labelText: {
-        fontSize: 16,
+        fontSize: 14,
         color: 'white',
         fontWeight: 'bold',
     },

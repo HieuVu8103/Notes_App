@@ -8,6 +8,8 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Platform, StatusBar,
+  SafeAreaView
 } from "react-native";
 import { LABELS } from "../data/dummy-data";
 import { Button } from "react-native";
@@ -34,6 +36,7 @@ function ManageLabels() {
 
   function pushLabel() {
     const updatedLabels = chosenLabels.filter(labelId => LABELS.some(label => label.id === labelId));
+    console.log(updatedLabels);
     notesContext.updateNote(noteId, { labelIds: updatedLabels });
     navigation.navigate('Notes');
   }
@@ -58,7 +61,7 @@ function ManageLabels() {
   );
 
   return (
-    <>
+    <SafeAreaView style={styles.SafeArea}>
       <View>
         <TextInput style={styles.input} placeholder="Search Labels" />
       </View>
@@ -73,11 +76,14 @@ function ManageLabels() {
         <View style={styles.button} >
           <Button onPress={pushLabel} title="Confirm" />
         </View>
-    </>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  SafeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 16,
@@ -105,7 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: "blue",
   },
   labelText: {
-    fontSize: 16,
+    fontSize: 15,
     color: "white",
     fontWeight: "bold",
   },

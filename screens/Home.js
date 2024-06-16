@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, StyleSheet, SafeAreaView, Dimensions, StatusBar, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import NotesOutput from '../components/NoteOutput/NotesOutput';
 import Header from '../components/layouts/Header';
@@ -28,6 +27,7 @@ function Home() {
     }, [navigation]);
 
     return (
+        <SafeAreaView style={styles.safeArea}>
             <View style={[styles.container]}>
                 <Header
                     isHome
@@ -49,10 +49,14 @@ function Home() {
                     />
                 </View>
             </View>
+            </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    safeArea: {
+        flex: 1,
+    },
     container: {
         flex: 1,
     },
