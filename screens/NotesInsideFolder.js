@@ -7,20 +7,20 @@ import IconButton from '../components/UI/IconButtonn';
 import { useNavigation } from '@react-navigation/native';
 import NotesList from '../components/NoteOutput/NotesList';
 
-function NotesInFolder() {
+function NotesInsideFolder() {
     const route = useRoute();
     const navigation = useNavigation();
     const noteCtx = useContext(NotesContext);
     const { folderId } = route.params;
 
     const folder = noteCtx.folders.find((f) => f.id === folderId);
-    const notesInFolder = noteCtx.notes.filter((n) =>
+    const NotesInsideFolder = noteCtx.notes.filter((n) =>
         folder.noteIds.includes(n.id)
     );
 
     return (
         <>
-            {notesInFolder.length === 0 ? (
+            {NotesInsideFolder.length === 0 ? (
                 <View style={styles.container}>
                     <Text style={styles.text}>
                         No notes is in this folder
@@ -32,7 +32,7 @@ function NotesInFolder() {
             ) : (
                 <View>
                     <NotesList
-                        notes={notesInFolder}
+                        notes={NotesInsideFolder}
                         folderId={folderId}
                         type={'folder'}
                     />
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default NotesInFolder;
+export default NotesInsideFolder;

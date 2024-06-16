@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { formatDistanceToNow, format } from 'date-fns';
-import { LABELS } from '../../data/dummy-data';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useContext } from 'react';
 import { NotesContext } from '../../store/notes-context';
@@ -17,22 +16,24 @@ import { AntDesign } from '@expo/vector-icons';
 function NoteItem({
     id,
     color,
-    labelIds = [],
+    labelIds,
     content,
     updateAt,
     isBookmarked,
     type,
     folderId,
 }) {
+    const notesCtx = useContext(NotesContext);
     const labels = labelIds
         .map((labelId) => {
-            const label = LABELS.find((label) => label.id === labelId);
+            const label = notesCtx.labels.find(
+                (label) => label.id === labelId
+            );
             return label ? label.label : null;
         })
         .filter(Boolean);
     const formattedDate = formatDate(updateAt);
     const navigation = useNavigation();
-    const notesCtx = useContext(NotesContext);
     const [modalVisible, setModalVisible] = useState(false);
 
     const folder = notesCtx.folders.find((f) => f.id === folderId);
@@ -96,7 +97,7 @@ function NoteItem({
                         <View
                             style={[
                                 styles.dot,
-                                { backgroundColor: color},
+                                { backgroundColor: color },
                             ]}
                         />
 
@@ -227,6 +228,7 @@ const styles = StyleSheet.create({
     labelsContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
+        rowGap: 10,
         marginBottom: 8,
     },
     label: {

@@ -22,7 +22,7 @@ function FolderItem({ id, name, noteIds, createAt, updateAt }) {
     const formattedDate = formatDate(updateAt);
 
     const notePressHandler = () => {
-        navigate.navigate('NotesInFolder', {
+        navigate.navigate('NotesInsideFolder', {
             folderId: id,
         });
     };

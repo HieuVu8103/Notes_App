@@ -17,7 +17,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { LABELS } from '../data/dummy-data';
 import { NotesContext } from '../store/notes-context';
 import { formatDistanceToNow } from 'date-fns';
-import EditFunction from '../components/NoteOutput/EditFunction';
+import BottomSheet from '../components/NoteOutput/BottomSheet';
 import IconButton from '../components/UI/IconButtonn';
 
 function EditNote() {
@@ -34,7 +34,6 @@ function EditNote() {
         const label = notesCtx.labels.find((label) => label.id === value);
         return label ? label.label : null;
     }
-    
 
     function handleContentChange(text) {
         setContent(text);
@@ -153,10 +152,10 @@ function EditNote() {
                         onPress={(e) => e.stopPropagation()}>
                         <Animated.View
                             style={[
-                                styles.editFunctionContainer,
+                                styles.BottomSheetContainer,
                                 { opacity: fadeAnim },
                             ]}>
-                            <EditFunction isClick={isClick} />
+                            <BottomSheet isClick={isClick} />
                         </Animated.View>
                     </TouchableWithoutFeedback>
                 )}
@@ -181,6 +180,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#f0f0f0',
         display: 'flex',
         flexDirection: 'row',
+        flexWrap: 'wrap',
+        rowGap: 10,
         paddingHorizontal: 8,
         paddingVertical: 4,
         borderRadius: 12,

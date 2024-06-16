@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { NotesContext } from '../../store/notes-context';
 import { useNavigation } from '@react-navigation/native';
 
-function EditFunction() {
+function BottomSheet() {
     const route = useRoute();
     const { noteId } = route.params;
     const notesCtx = React.useContext(NotesContext);
@@ -56,8 +56,10 @@ function EditFunction() {
                 <ScrollView horizontal>
                     <View style={styles.color_bar}>
                         <View style={styles.emptyCircle}>
-                        <Pressable
-                                style={({ pressed }) => pressed && styles.pressed}
+                            <Pressable
+                                style={({ pressed }) =>
+                                    pressed && styles.pressed
+                                }
                                 onPress={() => {
                                     handler({
                                         funcName: 'Change color',
@@ -67,8 +69,15 @@ function EditFunction() {
                                     style={[
                                         styles.colorCircle,
                                         { backgroundColor: 'transparent' },
-                                    ]}
-                                ><Text style={{ textAlign: 'center', fontSize: 12}}>No color</Text></View>
+                                    ]}>
+                                    <Text
+                                        style={{
+                                            textAlign: 'center',
+                                            fontSize: 12,
+                                        }}>
+                                        No color
+                                    </Text>
+                                </View>
                             </Pressable>
                         </View>
                         {COLORS.map((color, index) => (
@@ -96,28 +105,28 @@ function EditFunction() {
             </View>
             <View style={styles.noteLabel}>
                 <ScrollView horizontal>
-                {note.labelIds.map((labelId, index) => (
-                    <Text
-                        key={index}
-                        style={styles.noteLabelText}>
-                        {getLabelByValue(labelId)}
-                    </Text>
-                ))}
-                <Pressable
-                    style={({ pressed }) => pressed && styles.pressed}
-                    onPress={() => {
-                        navigation.navigate('Manage Labels', {
-                            note: {
-                                ...note,
-                                updateAt: Date.now(),
-                            },
-                        });
-                    }}>
-                    <Text style={styles.noteLabelText}>
-                        {' '}
-                        + Manage Labels
-                    </Text>
-                </Pressable>
+                    {note.labelIds.map((labelId, index) => (
+                        <Text
+                            key={index}
+                            style={styles.noteLabelText}>
+                            {getLabelByValue(labelId)}
+                        </Text>
+                    ))}
+                    <Pressable
+                        style={({ pressed }) => pressed && styles.pressed}
+                        onPress={() => {
+                            navigation.navigate('Manage Labels', {
+                                note: {
+                                    ...note,
+                                    updateAt: Date.now(),
+                                },
+                            });
+                        }}>
+                        <Text style={styles.noteLabelText}>
+                            {' '}
+                            + Manage Labels
+                        </Text>
+                    </Pressable>
                 </ScrollView>
             </View>
             <View>
@@ -145,9 +154,7 @@ function EditFunction() {
 }
 
 const styles = StyleSheet.create({
-    safeArea: {
-
-    },
+    safeArea: {},
     container: {
         backgroundColor: 'white',
     },
@@ -207,4 +214,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default EditFunction;
+export default BottomSheet;

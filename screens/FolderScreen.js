@@ -1,15 +1,15 @@
 import { View, Text } from 'react-native';
 import Header from '../components/layouts/Header';
-import FoldersOutput from '../components/FolderOutput/FoldersOutput';
+import Folder from '../components/Folder';
 import { FOLDERS } from '../data/dummy-data';
 
-function Folders() {
+function FolderScreen() {
     return (
         <>
             <Header title='Folder' />
-            <FoldersOutput folders={FOLDERS}/>
+            <Folder folders={FOLDERS} />
         </>
     );
 }
 
-export default Folders;
+export default FolderScreen;

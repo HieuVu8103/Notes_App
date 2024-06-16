@@ -7,7 +7,7 @@ import { View, StyleSheet } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import NotesList from '../components/NoteOutput/NotesList';
 
-function NotesWithFolder() {
+function FolderWithNotes() {
     const navigation = useNavigation();
     const notesCtx = useContext(NotesContext);
 
@@ -15,7 +15,9 @@ function NotesWithFolder() {
     const { folderId } = route.params;
 
     const folder = notesCtx.folders.find((f) => f.id === folderId);
-    const notesInFolder = notesCtx.notes.filter((n) => folder.noteIds.includes(n.id));
+    const NotesInsideFolder = notesCtx.notes.filter((n) =>
+        folder.noteIds.includes(n.id)
+    );
     const notesNotInFolder = notesCtx.notes.filter(
         (n) => !notesCtx.folders.some((f) => f.noteIds.includes(n.id))
     );
@@ -27,7 +29,7 @@ function NotesWithFolder() {
     return (
         <View style={styles.container}>
             <NotesList
-                notes={[...notesNotInFolder, ...notesInFolder]}
+                notes={[...notesNotInFolder, ...NotesInsideFolder]}
                 type={'noteInFolder'}
                 folderId={folderId}
             />
@@ -42,7 +44,7 @@ function NotesWithFolder() {
     );
 }
 
-export default NotesWithFolder;
+export default FolderWithNotes;
 
 const styles = StyleSheet.create({
     container: {

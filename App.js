@@ -7,17 +7,16 @@ import { StyleSheet, View } from 'react-native';
 
 import Home from './screens/Home';
 import Labels from './screens/Labels';
-import Folders from './screens/Folders';
+import FolderScreen from './screens/FolderScreen';
 import Trash from './screens/Trash';
 import NewNote from './screens/NewNote';
 import EditNote from './screens/EditNote';
 import ManageLabels from './screens/ManageLabels';
-import IconButton from './components/UI/IconButtonn';
 import NotesContextProvider from './store/notes-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TrashNote from './components/TrashNote/TrashNote';
-import NotesInFolder from './screens/NotesInFolder';
-import NotesWithFolder from './screens/NotesWithFolder';
+import NotesInsideFolder from './screens/NotesInsideFolder';
+import FolderWithNotes from './screens/FolderWithNotes';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -93,18 +92,18 @@ function FolderStack() {
         <Stack.Navigator>
             <Stack.Screen
                 name='Folders stack'
-                component={Folders}
+                component={FolderScreen}
                 options={{ headerShown: false, title: 'folders' }}
             />
             <Stack.Screen
-                name='NotesInFolder'
-                component={NotesInFolder}
+                name='NotesInsideFolder'
+                component={NotesInsideFolder}
                 options={{ headerShown: true, title: null }}
             />
 
             <Stack.Screen
                 name='Notes with folder'
-                component={NotesWithFolder}
+                component={FolderWithNotes}
                 options={{ title: 'Notes' }}
             />
         </Stack.Navigator>

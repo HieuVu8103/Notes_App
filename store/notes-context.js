@@ -122,7 +122,7 @@ function notesReducer(state, action) {
             return { ...state };
         }
 
-        case 'REMOVE_NOTE_TO_FOLDER': {
+        case 'REMOVE_NOTE_FROM_FOLDER': {
             const { noteId, folderId } = action.payload;
             state.folders.forEach((f) => {
                 if (f.id !== folderId) {
@@ -154,7 +154,6 @@ function notesReducer(state, action) {
         case 'UPDATE_LABEL': {
             const udatedLabels = state.labels.map((l) => {
                 if (l.id === action.payload.id) {
-                    console.log(action.payload.content);
                     return {
                         id: l.id,
                         label: action.payload.content,
@@ -221,7 +220,7 @@ function NotesContextProvider({ children }) {
 
     function removeNoteFromFolder({ folderId, noteId }) {
         dispatch({
-            type: 'REMOVE_NOTE_TO_FOLDER',
+            type: 'REMOVE_NOTE_FROM_FOLDER',
             payload: { noteId, folderId },
         });
     }
