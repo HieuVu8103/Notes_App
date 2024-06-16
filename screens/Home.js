@@ -28,7 +28,6 @@ function Home() {
     }, [navigation]);
 
     return (
-        <SafeAreaView style={styles.safeArea}>
             <View style={[styles.container]}>
                 <Header
                     isHome
@@ -50,17 +49,12 @@ function Home() {
                     />
                 </View>
             </View>
-        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-    },
     container: {
         flex: 1,
-        paddingHorizontal: 20,
     },
     addButton: {
         position: 'absolute',

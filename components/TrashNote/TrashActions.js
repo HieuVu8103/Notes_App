@@ -28,7 +28,7 @@ const TrashActions = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     marginVertical: 10,
     marginHorizontal: 10
   },

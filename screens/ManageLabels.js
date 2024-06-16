@@ -64,7 +64,7 @@ function ManageLabels() {
       </View>
       <View style={styles.container}>
         <FlatList
-          data={LABELS}
+          data={notesContext.labels}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderLabelItem}
           numColumns={3}

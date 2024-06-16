@@ -1,6 +1,7 @@
 import { View, TextInput } from 'react-native';
 import { useState } from 'react';
-import { StyleSheet, Button } from 'react-native';
+import { StyleSheet, Button, Pressable } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 function ModifyLabel({ label, onLabelChange, onDeleteLabel }) {
     const [text, setText] = useState(label.label);

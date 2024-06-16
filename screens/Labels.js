@@ -8,11 +8,13 @@ import {
     TextInput,
     TouchableOpacity,
     Modal,
+    Pressable
 } from 'react-native';
 import Header from '../components/layouts/Header';
 import ModifyLabel from '../components/NoteOutput/ModifyLabel';
 import { useContext } from 'react';
 import { NotesContext } from '../store/notes-context';
+import { Ionicons } from '@expo/vector-icons';
 
 function Labels() {
     const noteCtx = useContext(NotesContext);
@@ -54,6 +56,7 @@ function Labels() {
         noteCtx.deleteLabel({
             id: labelId,
         });
+        setFilteredLabels(noteCtx.labels);
         setIsDialogVisible(false);
     };
 
@@ -68,6 +71,10 @@ function Labels() {
     useEffect(() => {
         searchLabel(inputText);
     }, [inputText]);
+
+    useEffect(() => {
+        setFilteredLabels(noteCtx.labels);
+    }, [noteCtx.labels]);
 
     const renderLabelItem = ({ item }) => (
         <TouchableOpacity
@@ -93,7 +100,7 @@ function Labels() {
                 />
             </View>
             <View style={{ marginLeft: 10, marginBottom: 10 }}>
-                <Text>{filteredLabels.length} totals</Text>
+                <Text style={{ color: 'lightseagreen', fontWeight: 'bold' }} >{filteredLabels.length} labels</Text>
             </View>
             {inputText.length > 0 && (
                 <TouchableOpacity
